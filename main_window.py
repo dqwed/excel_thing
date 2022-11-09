@@ -28,14 +28,16 @@ class Main(QWidget, Ui_Dialog):
 
     def process(self):
         res_dict = self.create_barcode_rest_dict()
+        
 
         df = ExcelFile(self.files['pushButton_2']).parse(header=8, usecols='F')
-        barcodes = DataFrame(df).to_numpy(dtype=int)
+        barcodes = DataFrame(df).to_numpy()
         rest = ['', '', 'Остаток в офисе']
 
         for barcode in barcodes:
-            if str(barcode[0]) in res_dict:
-                rest.append(res_dict[str(barcode[0])] if res_dict[str(barcode[0])] != '' else 0)
+            barcode = self.cut_barcode(barcode[0])
+            if str(barcode) in res_dict:
+                rest.append(res_dict[str(barcode)] if res_dict[str(barcode)] != '' else 0)
             else:
                 rest.append('не найден')
         df = ExcelFile(self.files['pushButton_2']).parse(header=5)
@@ -55,3 +57,18 @@ class Main(QWidget, Ui_Dialog):
                     if barcode:
                         data[barcode] = pair[0]
         return data
+
+    def header(self):
+        pass
+
+    def column(self):
+        pass
+
+    def cut_barcode(self, barcode):
+        barcode = str(barcode).replace('.', '')[0:-1]
+        if len(barcode) <= 13:
+            return int(barcode)
+        elif len(barcode) == 14:
+            return int(barcode[1:])
+        elif len(barcode) > 14:
+            return int(barcode[:13]) 
