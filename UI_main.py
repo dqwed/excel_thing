@@ -18,6 +18,12 @@ class Ui_Dialog(object):
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(140, 30, 91, 23))
         self.pushButton.setObjectName("pushButton")
+        self.text = QtWidgets.QLineEdit(Dialog)
+        self.text.setGeometry(QtCore.QRect(20, 110, 91, 23))
+        self.text.setObjectName("lineEdit")
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(22, 69, 212, 46))
+        self.label.setObjectName("label")
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(20, 30, 91, 23))
         self.pushButton_2.setObjectName("pushButton_2")
@@ -31,6 +37,9 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Остатки"))
+        self.text.setText(_translate("Dialog", "F"))
+        self.label.setText(_translate("Dialog", "Введите букву колонки с артикулами"))
+        self.label.setWordWrap(True)
         self.pushButton.setText(_translate("Dialog", "Остатки"))
         self.pushButton_2.setText(_translate("Dialog", "Основной файл"))
         self.pushButton_3.setText(_translate("Dialog", "Готово"))
