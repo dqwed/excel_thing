@@ -1,6 +1,6 @@
 from contextlib import suppress
 from UI_main import Ui_Dialog
-from PyQt5.QtWidgets import QWidget, QFileDialog
+from PyQt5.QtWidgets import QWidget, QFileDialog, QMessageBox
 from pandas import ExcelFile, DataFrame
 
 
@@ -27,10 +27,18 @@ class Main(QWidget, Ui_Dialog):
             self.pushButton_3.show()
 
     def process(self):
+        barcode_column = self.text.text()
+        if not(barcode_column.isalpha() and barcode_column.isascii()):
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setText("Ошибка")
+            msg.setInformativeText("Не все поля заполнены или неверный фопмат данных.")
+            msg.setWindowTitle("Ошибка")
+            msg.exec_()
+            return
         res_dict = self.create_barcode_rest_dict()
-        
 
-        df = ExcelFile(self.files['pushButton_2']).parse(header=8, usecols='F')
+        df = ExcelFile(self.files['pushButton_2']).parse(header=8, usecols=barcode_column.upper())
         barcodes = DataFrame(df).to_numpy()
         rest = ['', '', 'Остаток в офисе']
 
